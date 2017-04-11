@@ -3,4 +3,12 @@
     ul.nav.nav-pills.pull-right
       li.active(role='presentation')
         a(href='/') Home
+      if user
+        li
+          user.name
+        li
+          a(href='/logout') logout
+      else
+        li
+          a(href='/auth/google') login with google
   h3.text-muted My app
