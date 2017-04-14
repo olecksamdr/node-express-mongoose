@@ -19,6 +19,8 @@ module.exports = function (app) {
 
     .post(function (req, res, next) {
       const bookDoc = req.body;
+      bookDoc.ownerId = req.user._id;
+
       const book = new Book(bookDoc);
 
       book.save(handleError(res, function (result) {
@@ -27,7 +29,10 @@ module.exports = function (app) {
     })
 
     .get(function (req, res, next) {
-      Book.find({}, handleError(res, function (result) {
+      // return all books which was uploaded by the authenticated user
+      let ownerId = req.user._id;
+
+      Book.find({ownerId}, handleError(res, function (result) {
         res.status(200).send(result);
       }));
     });
@@ -36,7 +41,19 @@ module.exports = function (app) {
   app.route('/api/books/:_id')
     .get(function (req, res, next) {
       Book.findOne({ _id: req.params._id }, handleError(res, function (result) {
-        res.status(200).send(result);
+        if (result.ownerId !== req.user._id)
+          res.status(403).send('Forbidden');
+        else
+          res.status(200).send(result);
+      }));
+    })
+    .put(function(req, res) {
+      Book.findOneAndUpdate({ _id: req.params._id }, req.body, handleError(res, function (result) {
+        if (result.ownerId !== req.user._id)
+          res.status(403).send('Forbidden');
+        else
+          res.status(200).send(result);
       }));
     });
+
 };
