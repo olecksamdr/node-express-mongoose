@@ -12,11 +12,10 @@ var Schema = mongoose.Schema;
  */
 
 var UserSchema = new Schema({
-  name: { type: String, default: '' },
-  email: { type: String, default: '' },
-  hashed_password: { type: String, default: '' },
-  salt: { type: String, default: '' },
-
+  // name: { type: String, default: '' },
+  // email: { type: String, default: '' },
+  // hashed_password: { type: String, default: '' },
+  // salt: { type: String, default: '' },
   google: {
     id: String,
     token: String,
@@ -29,7 +28,7 @@ var UserSchema = new Schema({
  * User plugin
  */
 
-UserSchema.plugin(userPlugin, {});
+// UserSchema.plugin(userPlugin, {});
 
 /**
  * Add your
