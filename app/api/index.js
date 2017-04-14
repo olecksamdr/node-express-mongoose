@@ -1,6 +1,6 @@
 const winston = require('winston');
-
 const Book = require('../models/book');
+const requireAithentication = require('../../config/passport/requireAuthentication');
 
 
 const handleError = (res, onSuccess) => (err, result) => {
@@ -13,6 +13,8 @@ const handleError = (res, onSuccess) => (err, result) => {
 };
 
 module.exports = function (app) {
+  app.all('/api/*', requireAithentication);
+
   app.route('/api/books')
 
     .post(function (req, res, next) {

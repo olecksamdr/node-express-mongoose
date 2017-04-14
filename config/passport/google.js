@@ -17,14 +17,14 @@ module.exports = new GoogleStrategy({
       }
       else {
         // create a new user and save to datavase
-        let user = new User();
+        let newUser = new User();
 
-        user.google.id    = profile.id;
-        user.google.token = accessToken;
-        user.google.name  = profile.displayName;
-        user.google.email = profile.emails[0].value;
+        newUser.google.id    = profile.id;
+        newUser.google.token = accessToken;
+        newUser.google.name  = profile.displayName;
+        newUser.google.email = profile.emails[0].value;
 
-        user.save(function (err) {
+        newUser.save(function (err) {
           if (err)
             throw err;
           return done(null, user);
